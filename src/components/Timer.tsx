@@ -1,56 +1,66 @@
-import React from "react";
-import { useTimerControl } from "../hooks/useTimerControl";
+import { ReactComponent as IconSettings } from "../assets/icon-settings.svg";
+import { ReactComponent as Logo } from "../assets/logo.svg";
+import { EStateName, useTimerConfig } from "../hooks/useTimerConfig";
+import Settings from "./Settings";
+import TimerDisplay from "./TimerDisplay";
 
-type Props = { minutesInterval: number };
-
-const Timer = React.memo(({ minutesInterval }: Props) => {
+function Timer() {
   const {
-    minutes,
-    seconds,
-    onTimerPause,
-    onTimerRestart,
-    onTimerStart,
-    pause,
-    idle,
-    timerFinished,
-  } = useTimerControl(minutesInterval);
+    timerState,
+    minutesInterval,
+    modalOpen,
+    setModalOpen,
+    onModalToggle,
+    onSetPomodoro,
+    onSetShortBreak,
+    onSetLongBreak,
+  } = useTimerConfig();
 
-  const addLeadZeroPad = (timeUnit: number) =>
-    timeUnit < 10 ? `0${timeUnit}` : timeUnit;
+  const buttonStyle =
+    "h-12 font-bold text-xs tablet:text-sm px-5 tablet:px-[25] rounded-3xl w-max";
+  const buttonClickedClasses = `${buttonStyle} bg-lightorange text-navy px-[23px]`;
+  const buttonInactiveClasses = `${buttonStyle} opacity-40`;
+  const getButtonStyleByState = (state: EStateName) =>
+    timerState === state ? buttonClickedClasses : buttonInactiveClasses;
 
   return (
-    <section className="w-[300px] tablet:w-[410px] aspect-square rounded-full bg-blueblack grid place-items-center shadow-lg">
-      <div className="w-full bg-gradient-to-br from-black to-blue rounded-full grid place-items-center p-[22px]">
-        <div className="w-full aspect-square bg-blueblack rounded-full grid grid-rows-3 grid-cols-1 place-items-center">
-          <span className="row-start-2">
-            {addLeadZeroPad(minutes)}:{addLeadZeroPad(seconds)}
-          </span>
-          <div className="row-start-3">
-            <button
-              onClick={onTimerStart}
-              className={`uppercase ${
-                !timerFinished && (idle || pause) ? "" : "hidden"
-              }`}
-            >
-              start
-            </button>
-            <button
-              onClick={onTimerPause}
-              className={`uppercase ${pause || idle ? "hidden" : ""}`}
-            >
-              pause
-            </button>
-            <button
-              onClick={onTimerRestart}
-              className={`uppercase ${timerFinished && idle ? "" : "hidden"}`}
-            >
-              restart
-            </button>
-          </div>
-        </div>
+    <article className="container pt-8 pb-12 tablet:pb-[103px] tablet:pt-[80px] 2xl flex items-center flex-col">
+      <div className="flex flex-col gap-[45px] tablet:gap-[55px] items-center mb-12 tablet:mb-[109px]">
+        <Logo />
+        <nav className="relative w-[327px]  tablet:w-[373px] bg-blueblack text-bluegray rounded-full flex justify-between py-2 px-1.5 tablet:px-2">
+          <button
+            onClick={onSetPomodoro}
+            className={getButtonStyleByState(EStateName.Pomodoro)}
+          >
+            pomodoro
+          </button>
+          <button
+            onClick={onSetShortBreak}
+            className={getButtonStyleByState(EStateName.ShortBreak)}
+          >
+            short break
+          </button>
+          <button
+            onClick={onSetLongBreak}
+            className={getButtonStyleByState(EStateName.LongBreak)}
+          >
+            long break
+          </button>
+        </nav>
       </div>
-    </section>
+
+      <TimerDisplay minutesInterval={minutesInterval} />
+
+      <button
+        className="mt-[79px] tablet:mt-36 desktop:mt-[63px]"
+        onClick={onModalToggle}
+      >
+        <IconSettings />
+      </button>
+
+      <Settings open={modalOpen} setOpen={setModalOpen} />
+    </article>
   );
-});
+}
 
 export default Timer;
