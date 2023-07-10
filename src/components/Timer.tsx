@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ReactComponent as IconSettings } from "../assets/icon-settings.svg";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { EStateName, useTimerConfig } from "../hooks/useTimerConfig";
@@ -8,13 +9,13 @@ function Timer() {
   const {
     timerState,
     minutesInterval,
-    modalOpen,
-    setModalOpen,
-    onModalToggle,
     onSetPomodoro,
     onSetShortBreak,
     onSetLongBreak,
   } = useTimerConfig();
+
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const onModalToggle = () => setModalOpen((open) => !open);
 
   const buttonStyle =
     "h-12 font-bold text-xs tablet:text-sm px-5 tablet:px-[25] rounded-3xl w-max";
@@ -52,7 +53,7 @@ function Timer() {
       <TimerDisplay minutesInterval={minutesInterval} />
 
       <button
-        className="mt-[79px] tablet:mt-36 desktop:mt-[63px]"
+        className="mt-[79px] tablet:mt-36 desktop:mt-[63px] relative"
         onClick={onModalToggle}
       >
         <IconSettings />

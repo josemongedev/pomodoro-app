@@ -12,7 +12,6 @@ type TTimerState =
 
 export const useTimerConfig = () => {
   const [minutesInterval, setMinutesInterval] = useState(1);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [timerState, setTimerState] = useState<TTimerState>(
     EStateName.Pomodoro
   );
@@ -22,7 +21,6 @@ export const useTimerConfig = () => {
     long: 15,
   });
 
-  const onModalToggle = () => setModalOpen((open) => !open);
   const onSetShortBreak = () => setTimerState(EStateName.ShortBreak);
   const onSetLongBreak = () => setTimerState(EStateName.LongBreak);
   const onSetPomodoro = () => setTimerState(EStateName.Pomodoro);
@@ -45,10 +43,7 @@ export const useTimerConfig = () => {
   return {
     timerState,
     minutesInterval,
-    modalOpen,
-    setModalOpen,
     setTimerConfig,
-    onModalToggle,
     onSetPomodoro,
     onSetShortBreak,
     onSetLongBreak,

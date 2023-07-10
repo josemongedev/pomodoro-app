@@ -1,5 +1,5 @@
 import React from "react";
-import { useTimerControl } from "../hooks/useTimerControl";
+import { useTimerControls } from "../hooks/useTimerControls";
 
 type Props = { minutesInterval: number };
 
@@ -12,16 +12,14 @@ const TimerDisplay = React.memo(({ minutesInterval }: Props) => {
     onTimerStart,
     pause,
     idle,
-    timerFinished,
-  } = useTimerControl(minutesInterval);
+  } = useTimerControls(minutesInterval);
 
   const addLeadZeroPad = (timeUnit: number) =>
     timeUnit < 10 ? `0${timeUnit}` : timeUnit;
 
-  const hideStartButton = () =>
-    !timerFinished && (idle || pause) ? "" : "hidden";
-  const hidePauseButton = () => (pause || idle ? "hidden" : "");
-  const hideRestartButton = () => (timerFinished && idle ? "" : "hidden");
+  const hideStartButton = () => (idle || !pause ? "hidden" : "");
+  const hidePauseButton = () => (idle || pause ? "hidden" : "");
+  const hideRestartButton = () => (!idle ? "hidden" : "");
 
   return (
     <section className="w-[300px] tablet:w-[410px] aspect-square rounded-full bg-blueblack grid place-items-center shadow-lg">
