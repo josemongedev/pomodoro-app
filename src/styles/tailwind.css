@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "'Kumbh Sans'";
+    font-weight: 300;
+    src: url(/pomodoro-app/fonts/KumbhSans-Light.ttf);
+  }
+  @font-face {
+    font-family: "'Kumbh Sans'";
+    font-weight: 700;
+    src: url(/pomodoro-app/fonts/KumbhSans-Bold.ttf);
+  }
+
+  @font-face {
+    font-family: "'Roboto Slab'";
+    font-weight: 400;
+    src: url(/pomodoro-app/fonts/RobotoSlab-Regular.ttf);
+  }
+  @font-face {
+    font-family: "'Roboto Slab'";
+    font-weight: 700;
+    src: url(/pomodoro-app/fonts/RobotoSlab-Bold.ttf);
+  }
+
+  @font-face {
+    font-family: "'Space Mono'";
+    font-weight: 400;
+    src: url(/pomodoro-app/fonts/SpaceMono-Regular.ttf);
+  }
+  @font-face {
+    font-family: "'Space Mono'";
+    font-weight: 700;
+    src: url(/pomodoro-app/fonts/SpaceMono-Bold.ttf);
+  }
+}
