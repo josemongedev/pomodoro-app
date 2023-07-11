@@ -2,8 +2,15 @@
 import * as defaultTheme from "tailwindcss/defaultTheme";
 
 // export default {
-module.exports = {
+export default {
   content: ["./**/*.{tsx,html}", "./components/**/*.{html,tsx}"],
+  safelist: [
+    "hidden",
+    { pattern: /bg-(lightorange|skyblue|fuchsia)/ },
+    {
+      pattern: /font-(roboto-slab|kumbh-sans|space-mono)/,
+    },
+  ],
   // darkMode: "media",
   theme: {
     screens: {
@@ -44,12 +51,13 @@ module.exports = {
       "5xl": ["88px", { lineHeight: 1 }],
       "6xl": ["100px", { lineHeight: 1 }],
     },
-    fontFamily: {
-      "kumbh-sans": ["'Kumbh Sans'", ...defaultTheme.fontFamily.sans],
-      "roboto-slab": ["'Roboto Slab'", ...defaultTheme.fontFamily.serif],
-      "space-mono": ["'Space Mono'", ...defaultTheme.fontFamily.mono],
+    extend: {
+      fontFamily: {
+        "kumbh-sans": ["'Kumbh Sans'", ...defaultTheme.fontFamily.sans],
+        "roboto-slab": ["'Roboto Slab'", ...defaultTheme.fontFamily.serif],
+        "space-mono": ["'Space Mono'", ...defaultTheme.fontFamily.mono],
+      },
     },
-    extend: {},
   },
   plugins: [],
 };
