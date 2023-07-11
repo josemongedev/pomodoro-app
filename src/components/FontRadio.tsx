@@ -1,6 +1,12 @@
-type Props = { fontName: string };
+import { TFontOptions } from "../types/timerTypes";
 
-const FontRadio = ({ fontName }: Props) => {
+type Props = {
+  fontName: TFontOptions;
+  selectedFont: TFontOptions;
+  onFontChange: (font: TFontOptions) => void;
+};
+
+const FontRadio = ({ fontName, selectedFont, onFontChange }: Props) => {
   return (
     <label htmlFor={fontName} className="cursor-pointer">
       <input
@@ -10,10 +16,11 @@ const FontRadio = ({ fontName }: Props) => {
         className="peer"
         hidden
         value={fontName}
-        defaultChecked={fontName === "roboto-slab"}
+        defaultChecked={fontName === selectedFont}
+        onChange={() => onFontChange(fontName)}
       />
       <div
-        className={`font-${fontName} font-bold w-10 aspect-square grid place-items-center rounded-full bg-whitegray peer-checked:bg-blueblack peer-checked:text-white`}
+        className={`font-${fontName} border-white hover:outline hover:outline-offset-[5px]  hover:outline-1 hover:outline-whitegray  font-bold w-10 aspect-square grid place-items-center rounded-full bg-whitegray peer-checked:bg-blueblack peer-checked:text-white`}
       >
         Aa
       </div>

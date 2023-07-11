@@ -24,6 +24,7 @@ export default {
       blueblack: "#161932",
       blue: "#2E325A",
       lightorange: "#F87070",
+      lighterorange: "#f98d8d",
       skyblue: "#70F3F8",
       bluegray: "#D7E0FF",
       whitegray: "#EFF1FA",

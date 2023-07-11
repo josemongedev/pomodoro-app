@@ -1,16 +1,32 @@
+import { useState } from "react";
+import { ReactComponent as IconClose } from "../assets/icon-close.svg";
+import { TColorOptions, TFontOptions, TSettings } from "../types/timerTypes";
 import ColorRadio from "./ColorRadio";
 import Fields from "./Fields";
 import FontRadio from "./FontRadio";
 import MinutesInput from "./MinutesInput";
-import { ReactComponent as IconClose } from "../assets/icon-close.svg";
 
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onSettingsChange: (settings: TSettings) => void;
+  settings: TSettings;
 };
 
-const Settings = ({ open, setOpen }: Props) => {
+const Settings = ({ open, setOpen, onSettingsChange, settings }: Props) => {
+  const [newSettings, setNewSettings] = useState(settings);
   const onCloseClick = () => setOpen(false);
+
+  const onConfigApply: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    onSettingsChange(newSettings);
+  };
+
+  const onColorChange = (color: TColorOptions) =>
+    setNewSettings(() => ({ ...settings, color }));
+  const onFontChange = (font: TFontOptions) =>
+    setNewSettings(() => ({ ...settings, font }));
+
   return (
     <>
       {open ? (
@@ -25,20 +41,47 @@ const Settings = ({ open, setOpen }: Props) => {
             </button>
           </div>
           <hr className="h-[1px] mt-7 mb-6 bg-hrwhite border-0" />
-          <form className="px-6 flex items-center flex-col">
+          <form
+            className="px-6 flex items-center flex-col"
+            onSubmit={onConfigApply}
+          >
             <Fields legend="Time (minutes)">
-              <MinutesInput name="pomodoro" initial={25} />
-              <MinutesInput name="short-break" initial={5} />
-              <MinutesInput name="long-break" initial={15} />
+              <MinutesInput
+                name="pomodoro"
+                value={settings.duration.pomodoro}
+              />
+              <MinutesInput
+                name="short-break"
+                value={settings.duration.shortBreak}
+              />
+              <MinutesInput
+                name="long-break"
+                value={settings.duration.longBreak}
+              />
             </Fields>
 
             <hr className="w-full h-[1px] mt-6 mb-6 bg-hrwhite border-0" />
 
             <Fields legend="Font">
               <div className="flex justify-center gap-4">
-                <FontRadio key="roboto-slab" fontName="roboto-slab" />
-                <FontRadio key="kumbh-sans" fontName="kumbh-sans" />
-                <FontRadio key="space-mono" fontName="space-mono" />
+                <FontRadio
+                  key="kumbh-sans"
+                  fontName="kumbh-sans"
+                  selectedFont={settings.font}
+                  onFontChange={onFontChange}
+                />
+                <FontRadio
+                  key="roboto-slab"
+                  fontName="roboto-slab"
+                  selectedFont={settings.font}
+                  onFontChange={onFontChange}
+                />
+                <FontRadio
+                  key="space-mono"
+                  fontName="space-mono"
+                  selectedFont={settings.font}
+                  onFontChange={onFontChange}
+                />
               </div>
             </Fields>
 
@@ -46,13 +89,25 @@ const Settings = ({ open, setOpen }: Props) => {
 
             <Fields legend="Color">
               <div className="flex justify-center gap-4">
-                <ColorRadio color="lightorange" />
-                <ColorRadio color="skyblue" />
-                <ColorRadio color="fuchsia" />
+                <ColorRadio
+                  color="lightorange"
+                  selectedColor={settings.color}
+                  onColorChange={onColorChange}
+                />
+                <ColorRadio
+                  color="skyblue"
+                  selectedColor={settings.color}
+                  onColorChange={onColorChange}
+                />
+                <ColorRadio
+                  color="fuchsia"
+                  selectedColor={settings.color}
+                  onColorChange={onColorChange}
+                />
               </div>
             </Fields>
 
-            <button className="relative mt-8 rounded-[26.5px] bg-lightorange w-[140px] h-[53px] text-white text-xl font-bold">
+            <button className="relative mt-8 rounded-[26.5px] bg-lightorange w-[140px] h-[53px] text-white text-xl font-bold hover:bg-lighterorange">
               Apply
             </button>
           </form>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ReactComponent as IconSettings } from "../assets/icon-settings.svg";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { EStateName, useTimerConfig } from "../hooks/useTimerConfig";
+import { TSettings } from "../types/timerTypes";
 import Settings from "./Settings";
 import TimerDisplay from "./TimerDisplay";
 
@@ -15,7 +16,14 @@ function Timer() {
   } = useTimerConfig();
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [settings, setSettings] = useState<TSettings>({
+    duration: { pomodoro: 25, shortBreak: 5, longBreak: 15 },
+    font: "kumbh-sans",
+    color: "lightorange",
+  });
+
   const onModalToggle = () => setModalOpen((open) => !open);
+  const onSettingsChange = (settings: TSettings) => setSettings(() => settings);
 
   const buttonStyle =
     "h-12 font-bold text-xs tablet:text-sm px-5 tablet:px-[25] rounded-3xl w-max";
@@ -25,7 +33,9 @@ function Timer() {
     timerState === state ? buttonClickedClasses : buttonInactiveClasses;
 
   return (
-    <article className="container pt-8 pb-12 tablet:pb-[103px] tablet:pt-[80px] 2xl flex items-center flex-col">
+    <article
+      className={`container pt-8 pb-12 tablet:pb-[103px] tablet:pt-[80px] 2xl flex items-center flex-col ${settings.font}`}
+    >
       <div className="flex flex-col gap-[45px] tablet:gap-[55px] items-center mb-12 tablet:mb-[109px]">
         <Logo />
         <nav className="relative w-[327px]  tablet:w-[373px] bg-blueblack text-bluegray rounded-full flex justify-between py-2 px-1.5 tablet:px-2">
@@ -60,7 +70,12 @@ function Timer() {
           <IconSettings />
         </button>
       )}
-      <Settings open={modalOpen} setOpen={setModalOpen} />
+      <Settings
+        open={modalOpen}
+        setOpen={setModalOpen}
+        onSettingsChange={onSettingsChange}
+        settings={settings}
+      />
     </article>
   );
 }
