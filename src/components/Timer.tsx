@@ -50,7 +50,7 @@ function Timer() {
         </nav>
       </div>
 
-      <TimerDisplay minutesInterval={minutesInterval} />
+      <TimerDisplay minutesInterval={1} />
 
       <button
         className="mt-[79px] tablet:mt-36 desktop:mt-[63px] relative"

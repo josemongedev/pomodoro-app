@@ -5,7 +5,8 @@ const SECONDS_IN_MINUTE = 60;
 const MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * SECONDS_IN_MINUTE;
 
 export const useTimerControls = (minutesInterval: number) => {
-  // Just a units convertion so that it works better with dates in javascript
+  // INTERNAL TIMER STATES
+  // Just a units conversion so that it works better with dates in javascript
   const millisecondsInterval = minutesInterval * MILLISECONDS_IN_MINUTE;
   const [stopTime, setStopTime] = useState<Date>(new Date());
   // Starts paused and non-idle, meaning it's awaiting until user starts(resumes) the timer
@@ -15,8 +16,28 @@ export const useTimerControls = (minutesInterval: number) => {
     new Date(millisecondsInterval)
   );
 
-  // When minutesInterval changes(via Setting dialog box reset everything)
+  // CONTROL HANDLERS
+  const onTimerStart = () => {
+    setIdle(() => false);
+    setPause(() => false);
+    setStopTime(() => new Date(new Date().getTime() + timeRemaining.getTime()));
+  };
+
+  const onTimerPause = () => {
+    setPause(() => true);
+    setIdle(() => false);
+  };
+
+  const onTimerRestart = () => {
+    setIdle(() => false);
+    setPause(() => false);
+    setStopTime(() => new Date(new Date().getTime() + millisecondsInterval));
+    setTimeRemaining(() => new Date(millisecondsInterval));
+  };
+
+  // UPDATES EFFECTS
   useEffect(() => {
+    // When minutesInterval changes(via Settings dialog box) reset everything
     setPause(() => true);
     setIdle(() => false);
     setTimeRemaining(new Date(millisecondsInterval));
@@ -39,24 +60,6 @@ export const useTimerControls = (minutesInterval: number) => {
     const token = setInterval(updateTimer, 1000);
     return () => clearInterval(token);
   }, [pause, stopTime]);
-
-  const onTimerStart = () => {
-    setIdle(() => false);
-    setPause(() => false);
-    setStopTime(() => new Date(new Date().getTime() + timeRemaining.getTime()));
-  };
-
-  const onTimerPause = () => {
-    setPause(() => true);
-    setIdle(() => false);
-  };
-
-  const onTimerRestart = () => {
-    setIdle(() => false);
-    setPause(() => false);
-    setStopTime(() => new Date(new Date().getTime() + millisecondsInterval));
-    setTimeRemaining(() => new Date(millisecondsInterval));
-  };
 
   return {
     onTimerPause,

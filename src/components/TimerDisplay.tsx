@@ -1,5 +1,6 @@
 import React from "react";
 import { useTimerControls } from "../hooks/useTimerControls";
+import RadialProgressbar from "./RadialProgressbar";
 
 type Props = { minutesInterval: number };
 
@@ -28,7 +29,7 @@ const TimerDisplay = React.memo(({ minutesInterval }: Props) => {
           <span className="row-start-2">
             {addLeadZeroPad(minutes)}:{addLeadZeroPad(seconds)}
           </span>
-          <div className="row-start-3">
+          <div className="row-start-3 relative z-10">
             <button
               onClick={onTimerStart}
               className={`uppercase ${hideStartButton()}`}
@@ -48,6 +49,12 @@ const TimerDisplay = React.memo(({ minutesInterval }: Props) => {
               restart
             </button>
           </div>
+          <RadialProgressbar
+            minutes={minutes}
+            seconds={seconds}
+            interval={minutesInterval}
+            strokeSvg="stroke-lightorange"
+          />
         </div>
       </div>
     </section>
