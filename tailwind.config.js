@@ -7,6 +7,7 @@ export default {
   safelist: [
     "hidden",
     { pattern: /bg-(lightorange|skyblue|fuchsia)/ },
+    { pattern: /stroke-(lightorange|skyblue|fuchsia)/ },
     {
       pattern: /font-(roboto-slab|kumbh-sans|space-mono)/,
     },
@@ -20,6 +21,7 @@ export default {
     },
     colors: {
       black: "#0E112A",
+      modal: "rgba(10, 12, 28, 0.50)",
       navy: "#1E213F",
       blueblack: "#161932",
       blue: "#2E325A",
@@ -39,13 +41,13 @@ export default {
     fontSize: {
       "xxs-sp": ["11px", { lineHeight: 1, letterSpacing: "4.23px" }],
       xs: ["12px", { lineHeight: 1 }],
-      "sm-sp": ["13px", { lineHeight: 1, letterSpacing: "5px" }],
       sm: ["13px", { lineHeight: 1 }],
+      "sm-sp": ["13px", { lineHeight: 1, letterSpacing: "5px" }],
       md: ["14px", { lineHeight: 1 }],
       "md-sp": ["14px", { lineHeight: 1, letterSpacing: "13.125px" }],
       lg: ["15px", { lineHeight: 1 }],
-      "xl-sp": ["16px", , { lineHeight: 1, letterSpacing: "15px" }],
       xl: ["16px", { lineHeight: 1 }],
+      "xl-sp": ["16px", , { lineHeight: 1, letterSpacing: "15px" }],
       "2xl": ["20px", { lineHeight: 1 }],
       "3xl": ["28px", { lineHeight: 1 }],
       "4xl": ["80px", { lineHeight: 1 }],

@@ -1,5 +1,4 @@
 import { TColorOptions } from "../types/timerTypes";
-import "./ColorRadio.css";
 type Props = {
   color: TColorOptions;
   selectedColor: TColorOptions;
@@ -14,6 +13,7 @@ const ColorRadio = ({ color, selectedColor, onColorChange }: Props) => {
     >
       <input
         type="radio"
+        className="peer"
         name={"color"}
         id={color}
         value={color}
@@ -21,7 +21,7 @@ const ColorRadio = ({ color, selectedColor, onColorChange }: Props) => {
         defaultChecked={color === selectedColor}
         onChange={() => onColorChange(color)}
       />
-      <span className="check-icon">✔</span>
+      <span className="invisible peer-checked:visible">✔</span>
     </label>
   );
 };

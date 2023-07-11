@@ -20,7 +20,7 @@ const FontRadio = ({ fontName, selectedFont, onFontChange }: Props) => {
         onChange={() => onFontChange(fontName)}
       />
       <div
-        className={`font-${fontName} border-white hover:outline hover:outline-offset-[5px]  hover:outline-1 hover:outline-whitegray  font-bold w-10 aspect-square grid place-items-center rounded-full bg-whitegray peer-checked:bg-blueblack peer-checked:text-white`}
+        className={`font-${fontName}  border-white hover:outline hover:outline-offset-[5px]  hover:outline-1 hover:outline-whitegray  font-bold w-10 aspect-square grid place-items-center rounded-full bg-whitegray peer-checked:bg-blueblack peer-checked:text-white opacity-[0.7296] peer-checked:opacity-100 text-lg`}
       >
         Aa
       </div>

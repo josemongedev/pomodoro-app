@@ -4,9 +4,11 @@ export type TColorOptions = "lightorange" | "skyblue" | "fuchsia";
 
 export interface TTimersLength {
   pomodoro: number;
-  shortBreak: number;
-  longBreak: number;
+  short: number;
+  long: number;
 }
+
+export type TDurationOptions = keyof TTimersLength;
 
 export interface TSettings {
   font: TFontOptions;

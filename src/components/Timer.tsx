@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ReactComponent as IconSettings } from "../assets/icon-settings.svg";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { EStateName, useTimerConfig } from "../hooks/useTimerConfig";
@@ -13,28 +13,33 @@ function Timer() {
     onSetPomodoro,
     onSetShortBreak,
     onSetLongBreak,
+    setTimerConfig,
   } = useTimerConfig();
 
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const onDialogClose = () => dialogRef?.current?.close();
   const [settings, setSettings] = useState<TSettings>({
-    duration: { pomodoro: 25, shortBreak: 5, longBreak: 15 },
+    duration: { pomodoro: 25, short: 5, long: 15 },
     font: "kumbh-sans",
     color: "lightorange",
   });
 
-  const onModalToggle = () => setModalOpen((open) => !open);
-  const onSettingsChange = (settings: TSettings) => setSettings(() => settings);
+  const onModalShow = () => dialogRef.current?.showModal();
+  const onSettingsChange = (settings: TSettings) => {
+    setSettings(() => settings);
+    setTimerConfig(settings.duration);
+  };
 
   const buttonStyle =
     "h-12 font-bold text-xs tablet:text-sm px-5 tablet:px-[25] rounded-3xl w-max";
-  const buttonClickedClasses = `${buttonStyle} bg-lightorange text-navy px-[23px]`;
+  const buttonClickedClasses = `${buttonStyle} bg-${settings.color} text-navy px-[23px]`;
   const buttonInactiveClasses = `${buttonStyle} opacity-40 hover:opacity-100`;
   const getButtonStyleByState = (state: EStateName) =>
     timerState === state ? buttonClickedClasses : buttonInactiveClasses;
 
   return (
     <article
-      className={`container pt-8 pb-12 tablet:pb-[103px] tablet:pt-[80px] 2xl flex items-center flex-col ${settings.font}`}
+      className={`container pt-8 pb-12 tablet:pb-[103px] tablet:pt-[80px] 2xl flex items-center flex-col font-${settings.font}`}
     >
       <div className="flex flex-col gap-[45px] tablet:gap-[55px] items-center mb-12 tablet:mb-[109px]">
         <Logo />
@@ -60,19 +65,20 @@ function Timer() {
         </nav>
       </div>
 
-      <TimerDisplay minutesInterval={minutesInterval} />
+      <TimerDisplay
+        minutesInterval={minutesInterval}
+        accentColor={settings.color}
+      />
 
-      {!modalOpen && (
-        <button
-          className="mt-[79px] tablet:mt-36 desktop:mt-[63px] relative"
-          onClick={onModalToggle}
-        >
-          <IconSettings />
-        </button>
-      )}
+      <button
+        className="mt-[79px] tablet:mt-36 desktop:mt-[63px] relative"
+        onClick={onModalShow}
+      >
+        <IconSettings />
+      </button>
       <Settings
-        open={modalOpen}
-        setOpen={setModalOpen}
+        ref={dialogRef}
+        onDialogClose={onDialogClose}
         onSettingsChange={onSettingsChange}
         settings={settings}
       />
