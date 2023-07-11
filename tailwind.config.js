@@ -8,6 +8,7 @@ export default {
     "hidden",
     { pattern: /bg-(lightorange|skyblue|fuchsia)/ },
     { pattern: /stroke-(lightorange|skyblue|fuchsia)/ },
+    { pattern: /text-(lightorange|skyblue|fuchsia)/, variants: ["hover"] },
     {
       pattern: /font-(roboto-slab|kumbh-sans|space-mono)/,
     },

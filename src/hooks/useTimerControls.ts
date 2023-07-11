@@ -30,7 +30,7 @@ export const useTimerControls = (minutesInterval: number) => {
 
   const onTimerRestart = () => {
     setIdle(() => false);
-    setPause(() => false);
+    setPause(() => true);
     setStopTime(() => new Date(new Date().getTime() + millisecondsInterval));
     setTimeRemaining(() => new Date(millisecondsInterval));
   };

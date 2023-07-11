@@ -40,7 +40,6 @@ const Settings = forwardRef<HTMLDialogElement, Props>(
     return (
       <dialog
         ref={dialogRef}
-        open
         className="w-[327px] h-[549px] tablet:w-[540px] tablet:h-[464px] rounded-[15px] py-6 px-0 tablet:py-[34px] z-50 overflow-visible backdrop:bg-modal"
       >
         <div className="px-6 tablet:px-10 flex justify-between">
