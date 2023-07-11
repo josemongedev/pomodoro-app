@@ -51,9 +51,9 @@ export default {
       "xl-sp": ["16px", , { lineHeight: 1, letterSpacing: "15px" }],
       "2xl": ["20px", { lineHeight: 1 }],
       "3xl": ["28px", { lineHeight: 1 }],
-      "4xl": ["80px", { lineHeight: 1 }],
-      "5xl": ["88px", { lineHeight: 1 }],
-      "6xl": ["100px", { lineHeight: 1 }],
+      "4xl": ["80px", { lineHeight: 1, letterSpacing: "-5px" }],
+      "5xl": ["88px", { lineHeight: 1, letterSpacing: "-5px" }],
+      "6xl": ["100px", { lineHeight: 1, letterSpacing: "-5px" }],
     },
     extend: {
       fontFamily: {
