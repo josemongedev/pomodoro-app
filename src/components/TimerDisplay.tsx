@@ -25,28 +25,28 @@ const TimerDisplay = React.memo(({ minutesInterval }: Props) => {
   return (
     <section className="w-[300px] tablet:w-[410px] aspect-square rounded-full bg-blueblack grid place-items-center shadow-lg">
       <div className="w-full bg-gradient-to-br from-black to-blue rounded-full grid place-items-center p-[22px]">
-        <div className="w-full aspect-square bg-blueblack rounded-full grid grid-rows-3 grid-cols-1 place-items-center">
-          <span className="row-start-2">
+        <div className="w-full aspect-square bg-blueblack rounded-full grid grid-rows-6 grid-cols-1 place-items-center">
+          <span className="row-start-3 row-end-5 text-4xl font-bold">
             {addLeadZeroPad(minutes)}:{addLeadZeroPad(seconds)}
           </span>
-          <div className="row-start-3 relative z-10">
+          <div className="w-full flex justify-center row-start-5 relative z-10">
             <button
               onClick={onTimerStart}
-              className={`uppercase ${hideStartButton()}`}
+              className={`uppercase hover:text-lightorange text-md-sp ${hideStartButton()}`}
             >
-              start
+              &nbsp;start
             </button>
             <button
               onClick={onTimerPause}
-              className={`uppercase ${hidePauseButton()}`}
+              className={`uppercase hover:text-lightorange text-md-sp ${hidePauseButton()}`}
             >
-              pause
+              &nbsp;pause
             </button>
             <button
               onClick={onTimerRestart}
-              className={`uppercase ${hideRestartButton()}`}
+              className={`uppercase hover:text-lightorange text-md-sp ${hideRestartButton()}`}
             >
-              restart
+              &nbsp;restart
             </button>
           </div>
           <RadialProgressbar

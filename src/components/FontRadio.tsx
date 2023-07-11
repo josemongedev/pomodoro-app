@@ -1,15 +1,23 @@
 type Props = { fontName: string };
 
 const FontRadio = ({ fontName }: Props) => {
-  const kebabName = fontName.toLowerCase().split(" ").join("-");
   return (
-    <div>
-      <span>{fontName}</span>
-      <label htmlFor={kebabName}>
-        <input type="radio" name={kebabName} id={kebabName} />
-        <span className={`font-${kebabName}`}>Aa</span>
-      </label>
-    </div>
+    <label htmlFor={fontName} className="cursor-pointer">
+      <input
+        type="radio"
+        name={"fontName"}
+        id={fontName}
+        className="peer"
+        hidden
+        value={fontName}
+        defaultChecked={fontName === "roboto-slab"}
+      />
+      <div
+        className={`font-${fontName} font-bold w-10 aspect-square grid place-items-center rounded-full bg-whitegray peer-checked:bg-blueblack peer-checked:text-white`}
+      >
+        Aa
+      </div>
+    </label>
   );
 };
 

@@ -1,0 +1,6 @@
+input:checked + .check-icon {
+  display: inline-block;
+}
+input + .check-icon {
+  display: none;
+}

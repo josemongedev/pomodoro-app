@@ -1,11 +1,23 @@
+import "./ColorRadio.css";
 type Props = {
-  name: string;
+  color: string;
 };
 
-const ColorRadio = ({ name }: Props) => {
+const ColorRadio = ({ color }: Props) => {
   return (
-    <label htmlFor={name}>
-      <input type="radio" name={name} id={name} />
+    <label
+      htmlFor={color}
+      className={`w-10 aspect-square grid place-items-center rounded-full bg-${color} hover:cursor-pointer`}
+    >
+      <input
+        type="radio"
+        name={"color"}
+        id={color}
+        value={color}
+        hidden
+        defaultChecked={"lightorange" === color}
+      />
+      <span className="check-icon">✔</span>
     </label>
   );
 };

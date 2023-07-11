@@ -20,7 +20,7 @@ function Timer() {
   const buttonStyle =
     "h-12 font-bold text-xs tablet:text-sm px-5 tablet:px-[25] rounded-3xl w-max";
   const buttonClickedClasses = `${buttonStyle} bg-lightorange text-navy px-[23px]`;
-  const buttonInactiveClasses = `${buttonStyle} opacity-40`;
+  const buttonInactiveClasses = `${buttonStyle} opacity-40 hover:opacity-100`;
   const getButtonStyleByState = (state: EStateName) =>
     timerState === state ? buttonClickedClasses : buttonInactiveClasses;
 
@@ -50,15 +50,16 @@ function Timer() {
         </nav>
       </div>
 
-      <TimerDisplay minutesInterval={1} />
+      <TimerDisplay minutesInterval={minutesInterval} />
 
-      <button
-        className="mt-[79px] tablet:mt-36 desktop:mt-[63px] relative"
-        onClick={onModalToggle}
-      >
-        <IconSettings />
-      </button>
-
+      {!modalOpen && (
+        <button
+          className="mt-[79px] tablet:mt-36 desktop:mt-[63px] relative"
+          onClick={onModalToggle}
+        >
+          <IconSettings />
+        </button>
+      )}
       <Settings open={modalOpen} setOpen={setModalOpen} />
     </article>
   );
