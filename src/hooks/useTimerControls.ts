@@ -1,26 +1,19 @@
-import { useEffect, useState } from "react";
-
-const MILLISECONDS_IN_SECOND = 1000;
-const SECONDS_IN_MINUTE = 60;
-const MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * SECONDS_IN_MINUTE;
+import moment from "moment";
+import { useLayoutEffect, useState } from "react";
 
 export const useTimerControls = (minutesInterval: number) => {
   // INTERNAL TIMER STATES
-  // Just a units conversion so that it works better with dates in javascript
-  const millisecondsInterval = minutesInterval * MILLISECONDS_IN_MINUTE;
-  const [stopTime, setStopTime] = useState<Date>(new Date());
   // Starts paused and non-idle, meaning it's awaiting until user starts(resumes) the timer
   const [pause, setPause] = useState(true);
   const [idle, setIdle] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState<Date>(
-    new Date(millisecondsInterval)
+  const [timeRemaining, setTimeRemaining] = useState(
+    moment.duration(minutesInterval, "minutes")
   );
 
   // CONTROL HANDLERS
   const onTimerStart = () => {
-    setIdle(() => false);
     setPause(() => false);
-    setStopTime(() => new Date(new Date().getTime() + timeRemaining.getTime()));
+    setIdle(() => false);
   };
 
   const onTimerPause = () => {
@@ -29,44 +22,42 @@ export const useTimerControls = (minutesInterval: number) => {
   };
 
   const onTimerRestart = () => {
-    setIdle(() => false);
     setPause(() => true);
-    setStopTime(() => new Date(new Date().getTime() + millisecondsInterval));
-    setTimeRemaining(() => new Date(millisecondsInterval));
+    setIdle(() => false);
+    setTimeRemaining(() => moment.duration(minutesInterval, "minutes"));
   };
 
   // UPDATES EFFECTS
-  useEffect(() => {
+  useLayoutEffect(() => {
     // When minutesInterval changes(via Settings dialog box) reset everything
     setPause(() => true);
     setIdle(() => false);
-    setTimeRemaining(new Date(millisecondsInterval));
-  }, [millisecondsInterval]);
+    setTimeRemaining(() => moment.duration(minutesInterval, "minutes"));
+  }, [minutesInterval]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const updateTimer = () => {
       if (!pause) {
-        const remaining = new Date(
-          // Lower bound for time remaining to 0 minutes and 0 seconds
-          Math.max(0, stopTime.getTime() - new Date().getTime())
-        );
-        if (remaining.getMinutes() === 0 && remaining.getSeconds() === 0) {
+        // Clone to avoid undesired effects
+        const remaining = timeRemaining.clone();
+        remaining.subtract(1, "seconds");
+        if (remaining.get("seconds") === 0 && remaining.get("minutes") === 0) {
           setIdle(() => true);
           clearInterval(token);
         }
-        setTimeRemaining(remaining); // Update timer
+        setTimeRemaining(() => remaining); // Update timer
       }
     };
     const token = setInterval(updateTimer, 1000);
     return () => clearInterval(token);
-  }, [pause, stopTime]);
+  }, [pause, timeRemaining]);
 
   return {
     onTimerPause,
     onTimerRestart,
     onTimerStart,
-    minutes: timeRemaining.getMinutes(),
-    seconds: timeRemaining.getSeconds(),
+    minutes: timeRemaining.get("minutes"),
+    seconds: timeRemaining.get("seconds"),
     idle,
     pause,
   };
