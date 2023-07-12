@@ -54,7 +54,7 @@ const Settings = forwardRef<HTMLDialogElement, Props>(
           onSubmit={onConfigApply}
         >
           <Fields legend="Time (minutes)">
-            <div className="w-full mt-[26px] tablet:w-[462px] tablet:flex-row flex flex-col gap-2 tablet:gap-[22px] flex-grow">
+            <div className="w-full tablet:mt-[26px] tablet:w-[462px] tablet:flex-row flex flex-col gap-2 tablet:gap-[22px] flex-grow">
               <MinutesInput
                 name="pomodoro"
                 value={settings.duration.pomodoro}
