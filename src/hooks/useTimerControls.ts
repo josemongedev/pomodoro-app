@@ -35,20 +35,31 @@ export const useTimerControls = (minutesInterval: number) => {
     setTimeRemaining(() => moment.duration(minutesInterval, "minutes"));
   }, [minutesInterval]);
 
+  function isZeroDuration(dur: moment.Duration) {
+    if (!moment.isDuration(dur)) {
+      return true;
+    }
+    return dur.as("milliseconds") <= 0;
+  }
+
   useLayoutEffect(() => {
+    let token: ReturnType<typeof setInterval> | undefined;
     const updateTimer = () => {
-      if (!pause) {
+      if (!pause && token) {
         // Clone to avoid undesired effects
         const remaining = timeRemaining.clone();
         remaining.subtract(1, "seconds");
-        if (remaining.get("seconds") === 0 && remaining.get("minutes") === 0) {
-          setIdle(() => true);
+        if (isZeroDuration(remaining)) {
           clearInterval(token);
+          token = undefined;
+          setIdle(() => true);
         }
         setTimeRemaining(() => remaining); // Update timer
       }
     };
-    const token = setInterval(updateTimer, 1000);
+    if (!isZeroDuration(timeRemaining)) {
+      token = setInterval(updateTimer, 1000);
+    }
     return () => clearInterval(token);
   }, [pause, timeRemaining]);
 
