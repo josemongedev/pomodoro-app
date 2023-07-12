@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 export const useTimerControls = (minutesInterval: number) => {
   // INTERNAL TIMER STATES
@@ -21,21 +21,19 @@ export const useTimerControls = (minutesInterval: number) => {
     setIdle(() => false);
   };
 
-  const onTimerRestart = () => {
-    setPause(() => true);
-    setIdle(() => false);
-    setTimeRemaining(() => moment.duration(minutesInterval, "minutes"));
-  };
-
-  // UPDATES EFFECTS
-  useLayoutEffect(() => {
-    // When minutesInterval changes(via Settings dialog box) reset everything
+  const onTimerRestart = useCallback(() => {
     setPause(() => true);
     setIdle(() => false);
     setTimeRemaining(() => moment.duration(minutesInterval, "minutes"));
   }, [minutesInterval]);
 
-  function isZeroDuration(dur: moment.Duration) {
+  // UPDATES EFFECTS
+  useLayoutEffect(() => {
+    // When minutesInterval changes(via Settings dialog box) reset everything
+    onTimerRestart();
+  }, [onTimerRestart]);
+
+  function isZeroDuration(dur: moment.Duration): boolean {
     if (!moment.isDuration(dur)) {
       return true;
     }
